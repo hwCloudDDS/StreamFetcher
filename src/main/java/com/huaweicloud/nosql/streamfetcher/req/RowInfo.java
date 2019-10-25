@@ -1,4 +1,4 @@
-package com.huawei.hwcloud.stream.req;
+package com.huaweicloud.nosql.streamfetcher.req;
 
 import java.util.ArrayList;
 import java.util.List;

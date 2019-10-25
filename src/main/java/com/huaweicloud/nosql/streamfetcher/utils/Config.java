@@ -1,4 +1,4 @@
-package com.huawei.hwcloud.stream.utils;
+package com.huaweicloud.nosql.streamfetcher.utils;
 
 public class Config
 {

@@ -1,4 +1,4 @@
-package com.huawei.hwcloud.stream;
+package com.huaweicloud.nosql.streamfetcher;
 
 import static org.junit.Assert.assertTrue;
 

@@ -1,4 +1,4 @@
-package com.huawei.hwcloud.stream;
+package com.huaweicloud.nosql.streamfetcher;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.ColumnDefinitions;
@@ -7,11 +7,11 @@ import com.datastax.driver.core.DataType;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.huawei.hwcloud.stream.req.DataItem;
-import com.huawei.hwcloud.stream.req.RowInfo;
-import com.huawei.hwcloud.stream.req.StreamInfo;
-import com.huawei.hwcloud.stream.req.TableEvent;
-import com.huawei.hwcloud.stream.utils.WrapperCassandraSession;
+import com.huaweicloud.nosql.streamfetcher.req.DataItem;
+import com.huaweicloud.nosql.streamfetcher.req.RowInfo;
+import com.huaweicloud.nosql.streamfetcher.req.StreamInfo;
+import com.huaweicloud.nosql.streamfetcher.req.TableEvent;
+import com.huaweicloud.nosql.streamfetcher.utils.WrapperCassandraSession;
 
 import java.util.ArrayList;
 import java.util.List;

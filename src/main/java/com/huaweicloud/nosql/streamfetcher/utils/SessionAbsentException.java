@@ -1,4 +1,4 @@
-package com.huawei.hwcloud.stream.utils;
+package com.huaweicloud.nosql.streamfetcher.utils;
 
 public class SessionAbsentException extends Exception {
     private static final long serialVersionUID = -4924652673622223172L;

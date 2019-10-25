@@ -1,4 +1,4 @@
-package com.huawei.hwcloud.stream.req;
+package com.huaweicloud.nosql.streamfetcher.req;
 
 
 public class DataItem

@@ -1,4 +1,4 @@
-package com.huawei.hwcloud.stream.utils;
+package com.huaweicloud.nosql.streamfetcher.utils;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
