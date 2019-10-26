@@ -36,7 +36,6 @@ public class RetryProxyUtils implements MethodInterceptor
 
     }
 
-    @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
         int count = 0;
         Throwable t = null;

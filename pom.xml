@@ -63,12 +63,12 @@
       <dependency>
         <groupId>io.netty</groupId>
         <artifactId>netty-all</artifactId>
-        <version>4.1.37.Final</version>
+        <version>4.1.42.Final</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>4.3.7.RELEASE</version>
+        <version>4.3.19.RELEASE</version>
       </dependency>
   </dependencies>
 

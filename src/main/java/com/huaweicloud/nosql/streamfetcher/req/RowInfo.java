@@ -9,11 +9,11 @@ public class RowInfo {
 
     private String OperateType;
 
-    private List<DataItem> Keys = new ArrayList<>();
+    private List<DataItem> Keys = new ArrayList<DataItem>();
 
-    private List<DataItem> NewImage = new ArrayList<>();
+    private List<DataItem> NewImage = new ArrayList<DataItem>();
 
-    private List<DataItem> OldImage = new ArrayList<>();
+    private List<DataItem> OldImage = new ArrayList<DataItem>();
 
     public boolean compare(RowInfo rowInfo) {
         if (rowInfo == null)

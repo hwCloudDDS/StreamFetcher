@@ -26,7 +26,7 @@ public class StreamFetcher
             return null;
         }
 
-        List<String> streamShardList = new ArrayList<>();
+        List<String> streamShardList = new ArrayList<String>();
 
         WrapperCassandraSession session = WrapperCassandraSession.getRetrySession(cluster);
 
@@ -139,7 +139,7 @@ public class StreamFetcher
             System.out.println("request args are illegal \n");
             return null;
         }
-        List<String> streamShardList = new ArrayList<>();
+        List<String> streamShardList = new ArrayList<String>();
 
         String querySql =
             "select stream_enabled, stream_shards, keyspace_name, table_name from system_schema.tables where keyspace_name = '"
@@ -233,7 +233,7 @@ public class StreamFetcher
         RowInfo row = new RowInfo();
         int columnPosition = 0;
         int isNewImage = 0;
-        List<DataItem> colValues = new ArrayList<>();
+        List<DataItem> colValues = new ArrayList<DataItem>();
         for (int i = 0; i < columnDefinitions.size(); i++) {
             String name = columnDefinitions.getName(i);
             if (name.equalsIgnoreCase("@eventID")) {

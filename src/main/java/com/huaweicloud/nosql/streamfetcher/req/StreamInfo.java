@@ -10,7 +10,7 @@ public class StreamInfo {
 
     private String Table;
 
-    private List<RowInfo> Records = new ArrayList<>();
+    private List<RowInfo> Records = new ArrayList<RowInfo>();
 
     public void addColumn(RowInfo row) {
         Records.add(row);
