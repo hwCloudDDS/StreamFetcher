@@ -6,17 +6,46 @@
 
   <groupId>com.huaweicloud.nosql</groupId>
   <artifactId>stream-fetcher</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
+  <packaging>jar</packaging>
 
-  <name>stream-fetcher</name>
-  <!-- FIXME change it to the project's website -->
-  <!--<url>http://maven.apache.org</url>-->
+  <name>stream fetcher SDK for java</name>
+  <url>https://www.huaweicloud.com/product/nosql.html</url>
+  <description>HuaweiCloud NoSQL stream fetcher SDK of java</description>
 
-  <!--<properties>-->
-    <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-    <!--<maven.compiler.source>1.7</maven.compiler.source>-->
-    <!--<maven.compiler.target>1.7</maven.compiler.target>-->
-  <!--</properties>-->
+  <scm>
+    <connection>scm:git:https://github.com/hwCloudDDS/StreamFetcher.git</connection>
+    <developerConnection>scm:git:git@github.com:hwCloudDDS/StreamFetcher.git</developerConnection>
+    <url>https://github.com/hwCloudDDS/StreamFetcher</url>
+  </scm>
+  <licenses>
+    <license>
+      <name>BSD 3-Clause License</name>
+      <url>https://opensource.org/licenses/BSD-3-Clause</url>
+      <distribution>BSD License/ Modified BSD License</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>huaweicloud</id>
+      <organization>Huawei Cloud</organization>
+      <organizationUrl>https://huaweicloud.com</organizationUrl>
+    <roles>
+      <role>developer</role>
+    </roles>
+  </developer>
+  </developers>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>oss-stream-fetcher-snapshot</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>oss-stream-fetcher-release</id>
+      <url>https://oss.sonatype.org/</url>
+    </repository>
+  </distributionManagement>
 
   <dependencies>
     <dependency>
@@ -114,6 +143,57 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.10.4</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.2.1</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.5</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.7</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>oss-stream-fetcher-release</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
