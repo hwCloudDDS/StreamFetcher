@@ -17,7 +17,7 @@ public class Main2
 
     public static void main(String[] args) {
 
-        Cluster cluster = Cluster.builder().addContactPoint("XXX.XXX.XXX.XXX").withLoadBalancingPolicy(new RoundRobinPolicy()).withPort(XXX).build();
+        Cluster cluster = Cluster.builder().addContactPoint("XXX.XXX.XXX.XXX").withLoadBalancingPolicy(new RoundRobinPolicy()).withPort(9042).build();
 //        Cluster cluster = Cluster.builder().addContactPoint(endpoint).withLoadBalancingPolicy(new RoundRobinPolicy()).withPort(port).withCredentials(username, password).build();
 
         List<ColumnMetadata> pk = cluster.getMetadata().getKeyspace("KS").getTable("tb1").getPrimaryKey();
