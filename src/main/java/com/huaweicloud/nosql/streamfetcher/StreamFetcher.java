@@ -10,9 +10,14 @@ import com.huaweicloud.nosql.streamfetcher.req.DataItem;
 import com.huaweicloud.nosql.streamfetcher.req.RowInfo;
 import com.huaweicloud.nosql.streamfetcher.req.StreamInfo;
 import com.huaweicloud.nosql.streamfetcher.req.TableEvent;
+import com.huaweicloud.nosql.streamfetcher.utils.Config;
+import com.huaweicloud.nosql.streamfetcher.utils.UUIDGen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static jnr.ffi.provider.jffi.JNINativeInterface.Throw;
 
 public class StreamFetcher
 {
@@ -43,8 +48,7 @@ public class StreamFetcher
     public static StreamInfo GetRecords(Session session, String keySpace, TableEvent tableEvent) {
 
         if (session == null || keySpace == null || tableEvent == null) {
-            System.out.println("request args are illegal \n");
-            return null;
+            throw new RuntimeException("request args are illegal ");
         }
 
         String table = tableEvent.getTable();
@@ -54,8 +58,7 @@ public class StreamFetcher
         List<ColumnMetadata> primaryKey = tableEvent.getPrimaryKey();
 
         if (table == null || shardID == null || primaryKey == null) {
-            System.out.println("request tableEvent args are illegal \n");
-            return null;
+            throw new RuntimeException("request tableEvent args are illegal");
         }
 
         limitRow = limitRow > 1000 ? 1000: limitRow;
@@ -64,7 +67,9 @@ public class StreamFetcher
 
         String querySql;
         if (startEventID != null) {
-            querySql = "SELECT * FROM  " + key + " where \"@eventID\" > " + startEventID + " and \"@shardID\" = '"
+            long timePoint = System.currentTimeMillis() - Config.GRACE_TIME * 1000;
+            UUID timeUUID = UUIDGen.getTimeUUID_V2(timePoint);
+            querySql = "SELECT * FROM  " + key + " where \"@eventID\" >= " + startEventID + " and \"@eventID\" < " + timeUUID.toString() + " and \"@shardID\" = '"
                 + shardID + "' limit "+ limitRow;
         }
         else {
@@ -124,8 +129,6 @@ public class StreamFetcher
             if (name.equalsIgnoreCase("@eventID")) {
                 DataItem eventID = getValue(null, i, one, columnDefinitions, i);
                 row.setEventID(String.valueOf(eventID.getValue()));
-//                System.out.println(
-//                    "Get the column from eventID : " + eventID.getValue() + ". The table name is : " + table + ".");
                 continue;
             }
             if (name.equalsIgnoreCase("@newOldImage")) {
@@ -229,30 +232,9 @@ public class StreamFetcher
         else if (DataType.varint().equals(type)) {
             return new DataItem(columnName, one.getObject(index), type.getName().toString());
         }
-        //        DataType.counter()
-
-        //        DataType.ascii()
-        //        DataType.bigint()
-        //        DataType.blob()
-        //        DataType.cboolean()
-        //        DataType.date()
-        //        DataType.decimal()
-        //        DataType.cdouble()
-        //        DataType.duration()
-        //        DataType.cfloat()
-        //        DataType.inet()
-        //        DataType.cint()
-        //        DataType.smallint()
-        //        DataType.text()
-        //        DataType.time()
-        //        DataType.timestamp()
-        //        DataType.timeuuid()
-        //        DataType.tinyint()
-        //        DataType.uuid()
-        //        DataType.varchar()
-        //        DataType.varint()
 
         return new DataItem(columnName, one.getObject(index), type.getName().toString());//DataType.map()//DataType.set()//DataType.list()
 
     }
+
 }
