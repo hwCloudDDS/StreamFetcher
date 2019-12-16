@@ -13,7 +13,7 @@ public class Config
      */
     public static final int RETRY_INTERVAL = 1000;
 
-    public static final int GRACE_TIME = 30;
+    public static final int GRACE_TIME = 500;
 
 
 }
