@@ -1,11 +1,14 @@
 package com.huaweicloud.nosql.streamfetcher;
 
-import com.datastax.driver.core.ColumnDefinitions;
 import com.datastax.driver.core.ColumnMetadata;
 import com.datastax.driver.core.DataType;
+import com.datastax.driver.core.ColumnDefinitions;
+import com.datastax.driver.core.SimpleStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.exceptions.ReadTimeoutException;
+import com.google.common.util.concurrent.Uninterruptibles;
 import com.huaweicloud.nosql.streamfetcher.req.DataItem;
 import com.huaweicloud.nosql.streamfetcher.req.RowInfo;
 import com.huaweicloud.nosql.streamfetcher.req.StreamInfo;
@@ -16,11 +19,15 @@ import com.huaweicloud.nosql.streamfetcher.utils.UUIDGen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import static jnr.ffi.provider.jffi.JNINativeInterface.Throw;
 
 public class StreamFetcher
 {
+    private static final long BLOCK_TIMEOUT_NS = 20000000000L;
+    private static final int READ_RETRY_INTERVAL_MS = 2000;
+    private static final int READ_TIMEOUT_MILLIS = 20000;
+
     public static List<String> GetShardIterator(Session session, String keySpace, String tableName) {
         if (session == null || keySpace == null || tableName == null) {
             System.out.println("request args are illegal \n");
@@ -45,7 +52,7 @@ public class StreamFetcher
         return streamShardList;
     }
 
-    public static StreamInfo GetRecords(Session session, String keySpace, TableEvent tableEvent) {
+    public static StreamInfo GetRecords(Session session, String keySpace, TableEvent tableEvent) throws Throwable {
 
         if (session == null || keySpace == null || tableEvent == null) {
             throw new RuntimeException("request args are illegal ");
@@ -75,8 +82,36 @@ public class StreamFetcher
         else {
             querySql = "SELECT * FROM  " + key + " where \"@shardID\" = '" + shardID + "' limit "+ limitRow;
         }
+        long queryStartNanoTime = System.nanoTime();
+        ResultSet rs = null;
+        SimpleStatement simpleStatement = new SimpleStatement(querySql);
+        simpleStatement.setReadTimeoutMillis(READ_TIMEOUT_MILLIS);
+        while (true) {
+            try {
+                rs = session.execute(simpleStatement);
+                break;
+            } catch (Throwable e) {
+                Throwable recursionException = new RuntimeException(e);
+                boolean needRetry = false;
+                while (recursionException.getCause() != null) {
+                    if (recursionException.getCause() instanceof ReadTimeoutException) {
+                        needRetry = true;
+                        break;
+                    }
+                    recursionException = recursionException.getCause();
+                }
+                if (needRetry) {
+                    if ((System.nanoTime() - queryStartNanoTime) < BLOCK_TIMEOUT_NS) {
+                        Uninterruptibles.sleepUninterruptibly(READ_RETRY_INTERVAL_MS, TimeUnit.MILLISECONDS);
+                    } else {
+                        throw e;
+                    }
+                } else {
+                    throw e;
+                }
+            }
+        }
 
-        ResultSet rs = session.execute(querySql);
         if (rs == null) {
             return null;
         }

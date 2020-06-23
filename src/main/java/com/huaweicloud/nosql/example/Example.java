@@ -3,6 +3,8 @@ package com.huaweicloud.nosql.example;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.ColumnMetadata;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.SocketOptions;
+import com.datastax.driver.core.policies.RetryPolicy;
 import com.datastax.driver.core.policies.RoundRobinPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,14 +12,17 @@ import com.huaweicloud.nosql.streamfetcher.StreamFetcher;
 import com.huaweicloud.nosql.streamfetcher.req.RowInfo;
 import com.huaweicloud.nosql.streamfetcher.req.StreamInfo;
 import com.huaweicloud.nosql.streamfetcher.req.TableEvent;
+import com.huaweicloud.nosql.streamfetcher.utils.StreamRetryPolicy;
 
 import java.util.List;
 
 public class Example
 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Throwable {
 
+//        RetryPolicy rc = new StreamRetryPolicy(3, 3, 2);
+//        SocketOptions socketOptions = new SocketOptions().setConnectTimeoutMillis(30000);
         Cluster cluster = Cluster.builder().addContactPoint("xxx.xxx.xxx.xxx").withLoadBalancingPolicy(new RoundRobinPolicy()).withPort(9042).build();
 //        Cluster cluster = Cluster.builder().addContactPointsWithPorts(ListIPs).withLoadBalancingPolicy(new RoundRobinPolicy()).withPort(port).withCredentials(username, password).build();
 

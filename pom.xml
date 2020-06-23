@@ -6,7 +6,7 @@
 
   <groupId>com.huaweicloud.nosql</groupId>
   <artifactId>stream-fetcher</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <packaging>jar</packaging>
 
   <name>stream fetcher SDK for java</name>
