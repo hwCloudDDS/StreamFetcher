@@ -6,7 +6,7 @@
 
   <groupId>com.huaweicloud.nosql</groupId>
   <artifactId>stream-fetcher</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.8</version>
   <packaging>jar</packaging>
 
   <name>stream fetcher SDK for java</name>
@@ -43,7 +43,7 @@
     </snapshotRepository>
     <repository>
       <id>stream-fetcher-release</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://oss.sonatype.org/</url>
     </repository>
   </distributionManagement>
 

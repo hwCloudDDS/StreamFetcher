@@ -76,7 +76,7 @@ public class StreamFetcher
         if (startEventID != null) {
             long timePoint = System.currentTimeMillis() - Config.GRACE_TIME;
             UUID timeUUID = UUIDGen.getTimeUUID_V2(timePoint);
-            querySql = "SELECT * FROM  " + key + " where \"@eventID\" >= " + startEventID + " and \"@eventID\" < " + timeUUID.toString() + " and \"@shardID\" = '"
+            querySql = "SELECT * FROM  " + key + " where \"@eventID\" > " + startEventID + " and \"@eventID\" < " + timeUUID.toString() + " and \"@shardID\" = '"
                 + shardID + "' limit "+ limitRow;
         }
         else {
